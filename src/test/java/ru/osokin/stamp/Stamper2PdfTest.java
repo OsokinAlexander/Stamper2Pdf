@@ -1,5 +1,6 @@
 package ru.osokin.stamp;
 
+import com.itextpdf.text.DocumentException;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,49 +24,49 @@ public class Stamper2PdfTest {
     private static final int BLUE = 255;
 
     @Test
-    public void drawStamp2LandscapePdf() throws IOException {
+    public void drawStamp2LandscapePdf() throws IOException, DocumentException {
         File result = File.createTempFile("stamp", ".pdf");
         System.out.println(result.getAbsolutePath());
-        PdfDocument pdfDocument = new PdfDocument()
+        PdfFactory pdfFactory = new PdfFactory()
                 .addMiddleStamp(getBigStamp(), 10, 10);
-        pdfDocument.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(LANDSCAPE_PDF),
+        pdfFactory.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(LANDSCAPE_PDF),
                 new FileOutputStream(result));
     }
 
     @Test
-    public void drawStamp2PortraitPdf() throws IOException {
+    public void drawStamp2PortraitPdf() throws IOException, DocumentException {
         File result = File.createTempFile("stamp", ".pdf");
         System.out.println(result.getAbsolutePath());
-        PdfDocument pdfDocument = new PdfDocument()
+        PdfFactory pdfFactory = new PdfFactory()
                 .addMiddleStamp(getBigStamp(), 10, 10);
-        pdfDocument.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(PORTRAIT_PDF),
+        pdfFactory.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(PORTRAIT_PDF),
                 new FileOutputStream(result));
     }
 
     @Test
-    public void drawStamp2MultiPagePdf() throws IOException {
+    public void drawStamp2MultiPagePdf() throws IOException, DocumentException {
         File result = File.createTempFile("stamp", ".pdf");
         System.out.println(result.getAbsolutePath());
-        PdfDocument pdfDocument = new PdfDocument()
+        PdfFactory pdfFactory = new PdfFactory()
                 .addMiddleStamp(getBigStamp(), 10, 10);
-        pdfDocument.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(MULTI_PAGES_PDF),
+        pdfFactory.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(MULTI_PAGES_PDF),
                 new FileOutputStream(result));
     }
 
     @Test
-    public void drawStamp2MultiPagePdf_DiffStamps() throws IOException {
+    public void drawStamp2MultiPagePdf_DiffStamps() throws IOException, DocumentException {
         File result = File.createTempFile("stamp", ".pdf");
         System.out.println(result.getAbsolutePath());
-        PdfDocument pdfDocument = new PdfDocument()
+        PdfFactory pdfFactory = new PdfFactory()
                 .addMiddleStamp(getSmallStamp(), 10, 80)
                 .addMiddleStamp(getSmallStamp(), 10, 10)
                 .addLastStamp(getBigStamp(), 10, 10)
                 .addLastStamp(getBigStamp(), 10, 90);
-        pdfDocument.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(MULTI_PAGES_PDF),
+        pdfFactory.drawAllStamps(Stamper2PdfTest.class.getResourceAsStream(MULTI_PAGES_PDF),
                 new FileOutputStream(result));
     }
 
-    private Stamp getSmallStamp() throws IOException {
+    private Stamp getSmallStamp() throws IOException, DocumentException {
         return new Stamp(2, 100, 160)
                 .setStampDataList(getSmallStampDataList())
                 .setBorder(new Border(Stamper2PdfTest.class.getResourceAsStream(BORDER_IMAGE_SMALL_PNG),
@@ -74,11 +75,11 @@ public class Stamper2PdfTest {
                         .setLandscapeSize(260, 50))
                 .setVisibleTableGrid(false)
                 .setPadding(new Padding(5, 20, 5, 5))
-                .setFont(Stamper2PdfTest.class.getResourceAsStream("/" + TIMES_TTF), TIMES_TTF,
-                        FONT_SIZE, RED, GREEN, BLUE);
+                .setFont(new StampFont(Stamper2PdfTest.class.getResourceAsStream("/" + TIMES_TTF), TIMES_TTF,
+                        FONT_SIZE, RED, GREEN, BLUE));
     }
 
-    private Stamp getBigStamp() throws IOException {
+    private Stamp getBigStamp() throws IOException, DocumentException {
         return new Stamp(4, 120, 200)
                 .setStampDataList(getBigStampDataList())
                 .setBorder(new Border(Stamper2PdfTest.class.getResourceAsStream(BORDER_IMAGE_PORTRAIT_PNG),
@@ -87,8 +88,8 @@ public class Stamper2PdfTest {
                         .setLandscapeSize(820, 75))
                 .setVisibleTableGrid(false)
                 .setPadding(new Padding(20, 10, 5, 5))
-                .setFont(Stamper2PdfTest.class.getResourceAsStream("/" + TIMES_TTF), TIMES_TTF,
-                        FONT_SIZE, RED, GREEN, BLUE);
+                .setFont(new StampFont(Stamper2PdfTest.class.getResourceAsStream("/" + TIMES_TTF), TIMES_TTF,
+                        FONT_SIZE, RED, GREEN, BLUE));
     }
 
     private List<StampData> getBigStampDataList() {

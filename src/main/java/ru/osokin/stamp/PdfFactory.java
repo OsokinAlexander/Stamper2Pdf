@@ -19,13 +19,13 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Pdf document.
+/** Pdf factory for stamping.
  * @author Osokin Alexander
  * @since 1.0
  */
-public class PdfDocument {
+public class PdfFactory {
     /** Slf4j logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PdfDocument.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PdfFactory.class);
     /** List of stamps for first pdf page. */
     private List<Stamp> firstStamps = new ArrayList<>();
     /** List of stamps for pdf pages, not first or last pages if first or last stamps not empty. */
@@ -39,7 +39,7 @@ public class PdfDocument {
      * @param y y coordinate on the page
      * @return PDF document with not drawing stamp
      */
-    public PdfDocument addFirstStamp(final Stamp stamp, final float x, final float y) {
+    public PdfFactory addFirstStamp(final Stamp stamp, final float x, final float y) {
         this.firstStamps.add(new Stamp(stamp).setX(x).setY(y));
         return this;
     }
@@ -50,7 +50,7 @@ public class PdfDocument {
      * @param y y coordinate on the page
      * @return PDF document with not drawing stamp
      */
-    public PdfDocument addMiddleStamp(final Stamp stamp, final float x, final float y) {
+    public PdfFactory addMiddleStamp(final Stamp stamp, final float x, final float y) {
         this.middleStamps.add(new Stamp(stamp).setX(x).setY(y));
         return this;
     }
@@ -61,7 +61,7 @@ public class PdfDocument {
      * @param y y coordinate on the page
      * @return PDF document with not drawing stamp
      */
-    public PdfDocument addLastStamp(final Stamp stamp, final float x, final float y) {
+    public PdfFactory addLastStamp(final Stamp stamp, final float x, final float y) {
         this.lastStamps.add(new Stamp(stamp).setX(x).setY(y));
         return this;
     }
@@ -137,8 +137,8 @@ public class PdfDocument {
      * @param stampData stamp data for 2 cells
      */
     private void addStampCell2Table(final Stamp stamp, PdfPTable table, final StampData stampData) {
-        PdfPCell key = new PdfPCell(new Phrase(stampData.getKey(), stamp.getFont()));
-        PdfPCell value = new PdfPCell(new Phrase(stampData.getValue(), stamp.getFont()));
+        PdfPCell key = new PdfPCell(new Phrase(stampData.getKey(), stamp.getFont().getFont()));
+        PdfPCell value = new PdfPCell(new Phrase(stampData.getValue(), stamp.getFont().getFont()));
         if (!stamp.isVisibleTableGrid()) {
             key.setBorder(Rectangle.NO_BORDER);
             value.setBorder(Rectangle.NO_BORDER);

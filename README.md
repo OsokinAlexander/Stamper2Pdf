@@ -30,20 +30,23 @@ Border border = new Border(portraitBorderStream, landscapeBorderStream)
 // Initialize stamp padding
 Padding padding = new Padding(5, 20, 5, 5);
 
+// Initialize font
+StampFont font = new StampFont(fontInputStream, "times.ttf", 6, 28, 73, 255);
+
 // Initialize stamp
 Stamp middleStamp = new Stamp(2, 100, 160)
         .setStampDataList(stampDataList)
         .setBorder(border)
         .setVisibleTableGrid(false)
         .setPadding(padding)
-        .setFont(fontInputStream, "times.ttf", 6, 28, 73, 255);
+        .setFont(font);
 
 // ...
-PdfDocument pdfDocument = new PdfDocument()
+PdfFactory pdfFactory = new PdfFactory()
         .addFirstStamp(firstStamp, 10, 80)
         .addMiddleStamp(middleStamp, 10, 80)
         .addLastStamp(lastStamp, 10, 80);
 
-pdfDocument.drawAllStamps(inputPdfStream, outputPdfStream); 
+pdfFactory.drawAllStamps(inputPdfStream, outputPdfStream); 
 ```
 If you add only middle stamps you add them to each pages (first and last too).

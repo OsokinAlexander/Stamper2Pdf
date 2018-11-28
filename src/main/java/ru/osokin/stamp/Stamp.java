@@ -1,13 +1,8 @@
 package ru.osokin.stamp;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.pdf.BaseFont;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +21,7 @@ public class Stamp {
     /** List of cells. */
     private List<StampData> stampDataList;
     /** Fort for stamp text. */
-    private Font font = new Font();
+    private StampFont font = new StampFont();
     /** Count of columns (always even). */
     private int columnCount;
     /** Columns width. */
@@ -60,11 +55,13 @@ public class Stamp {
         for (StampData stampData: stamp.stampDataList) {
             this.stampDataList.add(new StampData(stampData));
         }
-        this.font = new Font(stamp.font);
+        this.font = new StampFont(stamp.font);
         this.columnCount = stamp.columnCount;
         this.columnWidths = stamp.columnWidths;
         this.isDefaultWidth = stamp.isDefaultWidth;
         this.isVisibleTableGrid = stamp.isVisibleTableGrid;
+        this.x = stamp.x;
+        this.y = stamp.y;
     }
 
     public Border getBorder() {
@@ -94,22 +91,8 @@ public class Stamp {
         return this;
     }
 
-    public Stamp setFont(final InputStream fontInputStream, final String fontName, final float fontSize) {
-        try {
-            byte[] bytes = IOUtils.toByteArray(fontInputStream);
-            BaseFont baseFont = BaseFont.createFont(fontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED,
-                    true, bytes, null);
-            font = new Font(baseFont, fontSize, Font.NORMAL);
-        } catch (Exception e) {
-            LOGGER.error("Could not load font for stamp", e);
-        }
-        return this;
-    }
-
-    public Stamp setFont(final InputStream fontInputStream, final String fontName, final float fontSize,
-                         final int red, final int green, final int blue) {
-        setFont(fontInputStream, fontName, fontSize);
-        font.setColor(new BaseColor(red, green, blue));
+    public Stamp setFont(final StampFont font) {
+        this.font = font;
         return this;
     }
 
@@ -118,7 +101,7 @@ public class Stamp {
         return this;
     }
 
-    public Font getFont() {
+    public StampFont getFont() {
         return font;
     }
 

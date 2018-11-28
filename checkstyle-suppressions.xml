@@ -6,5 +6,5 @@
 
 <suppressions>
     <suppress checks="FinalParameters"
-              files="PdfDocument.java"/>
+              files="PdfFactory.java"/>
 </suppressions>
