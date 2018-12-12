@@ -76,7 +76,7 @@ public class Stamper2PdfTest {
                 .setVisibleTableGrid(false)
                 .setPadding(new Padding(5, 20, 5, 5))
                 .setFont(new StampFont(Stamper2PdfTest.class.getResourceAsStream("/" + TIMES_TTF), TIMES_TTF,
-                        FONT_SIZE, RED, GREEN, BLUE));
+                        FONT_SIZE, "Cp1251").setColor(RED, GREEN, BLUE));
     }
 
     private Stamp getBigStamp() throws IOException, DocumentException {
@@ -89,7 +89,7 @@ public class Stamper2PdfTest {
                 .setVisibleTableGrid(false)
                 .setPadding(new Padding(20, 10, 5, 5))
                 .setFont(new StampFont(Stamper2PdfTest.class.getResourceAsStream("/" + TIMES_TTF), TIMES_TTF,
-                        FONT_SIZE, RED, GREEN, BLUE));
+                        FONT_SIZE).setColor(RED, GREEN, BLUE));
     }
 
     private List<StampData> getBigStampDataList() {

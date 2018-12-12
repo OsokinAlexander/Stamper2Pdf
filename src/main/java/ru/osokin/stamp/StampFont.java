@@ -21,18 +21,18 @@ public class StampFont {
         font = new Font();
     }
 
-    public StampFont(final InputStream fontInputStream, final String fontName, final float fontSize)
+    public StampFont(final InputStream fontInputStream, final String fontName,
+                     final float fontSize, final String encoding)
             throws IOException, DocumentException {
             byte[] bytes = IOUtils.toByteArray(fontInputStream);
-            BaseFont baseFont = BaseFont.createFont(fontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED,
+            BaseFont baseFont = BaseFont.createFont(fontName, encoding, BaseFont.EMBEDDED,
                     true, bytes, null);
             font = new Font(baseFont, fontSize, Font.NORMAL);
     }
 
-    public StampFont(final InputStream fontInputStream, final String fontName, final float fontSize,
-                     final int red, final int green, final int blue) throws IOException, DocumentException {
-        this(fontInputStream, fontName, fontSize);
-        font.setColor(new BaseColor(red, green, blue));
+    public StampFont(final InputStream fontInputStream, final String fontName, final float fontSize)
+            throws IOException, DocumentException {
+        this(fontInputStream, fontName, fontSize, BaseFont.IDENTITY_H);
     }
 
     public StampFont(final StampFont font) {
@@ -41,5 +41,10 @@ public class StampFont {
 
     public Font getFont() {
         return this.font;
+    }
+
+    public StampFont setColor(final int red, final int green, final int blue) {
+        font.setColor(new BaseColor(red, green, blue));
+        return this;
     }
 }
